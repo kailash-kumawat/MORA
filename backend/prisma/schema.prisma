@@ -4,12 +4,14 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
+  extensions = [vector]
 }
 
 enum cadence_preference {
@@ -27,7 +29,79 @@ model User {
   email       String             @unique
   password    String
   journal_pin String
-  created_at  DateTime
+  created_at  DateTime           @default(now())
   updated_at  DateTime
   deleted_at  DateTime
+  sessions    Session[]
+  consents    Consent[]
+  entries     Entry[]
+  themes      Theme[]
+  insights    Insight[]
+}
+
+model Session {
+  id            Int      @id @default(autoincrement())
+  refresh_token String
+  created_at    DateTime @default(now())
+  expired_at    DateTime
+  revoked_at    DateTime
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+}
+
+enum Consent_Type {
+  terms
+  data_processing
+  training_use
+}
+
+model Consent {
+  id         Int          @id @default(autoincrement())
+  type       Consent_Type
+  granted_at DateTime     @default(now())
+  revoked_at DateTime
+  user       User         @relation(fields: [userId], references: [id])
+  userId     Int
+}
+
+model Entry {
+  id         Int                         @id @default(autoincrement())
+  content    String
+  embedding  Unsupported("vector[1536]")
+  created_at DateTime                    @default(now())
+  deleted_at DateTime
+  themes     Theme[]
+  user       User                        @relation(fields: [userId], references: [id])
+  userId     Int
+}
+
+enum Theme_status {
+  building
+  consistent
+  surfaced
+}
+
+model Theme {
+  id              Int          @id @default(autoincrement())
+  label           String
+  emotion_tags    String[]
+  occurence_count Int
+  status          Theme_status
+  first_seen_at   DateTime
+  last_seen_at    DateTime
+  entries         Entry[]
+  insights        Insight[]
+  user            User         @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+model Insight {
+  id         Int      @id @default(autoincrement())
+  content    String
+  created_at DateTime @default(now())
+  viewed_at  DateTime
+  theme      Theme    @relation(fields: [themeId], references: [id])
+  themeId    Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
 }
