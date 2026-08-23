@@ -1,10 +1,36 @@
-// Server start
-/* 
-TODO-
-1. create new db in postgresql - done
-2. copy db url and create config value in .env - done
-3. install express - done
-4. install and setup prisma - done
-5. write schema models/build DB - next
-6. write server startup code
-*/
+import { config } from "./src/config/env.config.js";
+import prisma from "./src/db/index.js";
+import app from "./app.js";
+
+prisma
+  .$connect()
+  .then(() => {
+    app.on("error", (error) => {
+      console.log("Express app connection failed: ", error);
+    });
+
+    console.log("Database connected successfully!!");
+
+    app.listen(config.port, () => {
+      console.log(`Server is running at port ${config.port}`);
+    });
+  })
+  .catch((error) => {
+    console.log("Database connection failed: ", error);
+  });
+
+process.on("SIGINT", async () => {
+  console.log("Server shutting down...");
+  prisma.$disconnect();
+  console.log("Database disconnected");
+
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  console.log("Server terminated...");
+  prisma.$disconnect();
+  console.log("Database disconnected");
+
+  process.exit(0);
+});
