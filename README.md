@@ -56,10 +56,13 @@ node index.js
 
 ## License
 
-Copyright © 2026 Kailash Kumawat.
+Copyright © 2026 Kailash Kumawat. All rights reserved.
 
-This project is publicly available for viewing and educational/recruitment evaluation purposes only.
+MORA is source-available for viewing and evaluation purposes, including
+educational and recruitment purposes.
 
-The source code may not be copied, modified, distributed, published, reused, or used in another project without explicit permission from the author.
+No permission is granted to copy, modify, distribute, publish, sublicense,
+or use this source code or substantial portions of it in another project
+without prior written permission from the copyright holder.
 
-All rights reserved.
+For permission to use the code, please contact the author.
