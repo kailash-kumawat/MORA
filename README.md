@@ -53,3 +53,13 @@ npx prisma migrate dev --schema=../prisma/schema.prisma
 node index.js
 # or use any npm script defined in backend/package.json, e.g. npm run start
 ```
+
+## License
+
+Copyright © 2026 Kailash Kumawat.
+
+This project is publicly available for viewing and educational/recruitment evaluation purposes only.
+
+The source code may not be copied, modified, distributed, published, reused, or used in another project without explicit permission from the author.
+
+All rights reserved.
