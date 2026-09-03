@@ -21,7 +21,7 @@ prisma
 
 process.on("SIGINT", async () => {
   console.log("Server shutting down...");
-  prisma.$disconnect();
+  await prisma.$disconnect();
   console.log("Database disconnected");
 
   process.exit(0);
@@ -29,7 +29,7 @@ process.on("SIGINT", async () => {
 
 process.on("SIGTERM", async () => {
   console.log("Server terminated...");
-  prisma.$disconnect();
+  await prisma.$disconnect();
   console.log("Database disconnected");
 
   process.exit(0);
