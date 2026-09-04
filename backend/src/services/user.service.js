@@ -7,11 +7,11 @@ export const createUser = async ({ name, email, password }) => {
     where: {
       email: email,
     },
-    select: { id: true, name: true, email: true },
+    select: { id: true },
   });
 
   if (existingUser) {
-    throw new ApiError(409, "User with this contact or email already exists");
+    throw new ApiError(409, "User already exists");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
