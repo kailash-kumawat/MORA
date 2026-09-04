@@ -1,4 +1,5 @@
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
+import * as userService from "../services/user.service.js";
 
 export const createUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
