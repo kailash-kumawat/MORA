@@ -128,3 +128,5 @@ dist
 /generated/prisma
 
 *github/prompts
+
+/desktop/
